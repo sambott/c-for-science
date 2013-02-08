@@ -1,0 +1,86 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath,multicol}
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \oddsidemargin  -0.5in
+        \evensidemargin -0.5in
+        \textwidth      7.0in
+        \headheight     0.0in
+        \topmargin      -1.0in
+        \textheight=10.5in
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\large C for Science - Practical Exercise \#2
+\end{center}
+
+\begin{enumerate}
+\item Edit your linear equation solver from the previous exercise to solve the quadratic equation:
+$$ A[2]x^2 + A[1]x + A[0] = 0.$$
+The program should consist of:
+\begin{enumerate}
+\item A {\tt main} function which:
+\begin{enumerate}
+\item Reads in three coefficients of the quadratic.
+\item Calls a function {\tt quad\_roots} which solves the quadratic.
+\item Notifies the user which class the roots fall in and displays them in the appropriate form.
+\end{enumerate}
+\item A function {\tt quad\_roots} with the following declaration:
+\begin{center}
+\tt int quad\_roots(double * A, double * roots)
+\end{center}
+The function should return the following values
+\begin{center}
+\begin{tabular}{c p{414pt}}
+\tt -3& when {\tt A[2] = A[1] = 0, A[0] $\neq$ 0}, not an equation.\\
+\tt -2& when {\tt A[0] = A[1] = A[2] = 0}, no meaningful solution.\\
+\tt -1& when {\tt A[2] = 0, A[1] $\neq$ 0}, a linear equation with one solution {\tt roots[0]}.\\
+\tt 0& for two different real roots ({\tt A[1]$^2$ > 4A[2]A[0]}), {\tt roots[0]} and {\tt roots[1]}.\\
+\tt 1& for complex conjugate roots ({\tt A[1]$^2$ < 4A[2]A[0]}), {\tt roots[0]} should contain the real part and {\tt roots[1]} the imaginary part.\\
+\tt 2& for the case with two equal real roots {\tt A[1]$^2$ = 4A[0]A[2]}, {\tt roots[0] = roots[1]}.
+\end{tabular}
+\end{center}
+Separate your program into two files, one containing {\tt main} and the other containing {\tt quad\_roots}. The program should be tested on the data set:
+\begin{multicols}{2}
+\begin{enumerate}
+\item \tt A[2] = 1, A[1] = 3, A[0] = 2,
+\item \tt A[2] = 1, A[1] = 2, A[0] = 3,
+\item \tt A[2] = 4, A[1] = -4, A[0] = 1,
+\item \tt A[2] = 0, A[1] = 2, A[0] = 1.
+\end{enumerate}
+\end{multicols}
+\end{enumerate}
+\item The C Standard header file {\tt <float.h>} contains information about the various floating point numbers used in the C system such as largest and smallest numbers (in magnitude). One useful quantity is the smallest number that can be added to {\tt 1.0} and cause a difference to the value (this is known as $\epsilon$).
+\begin{enumerate}
+\item Locate and open the {\tt <float.h>} used by your compiler and extract the following constants {\tt FLT\_MAX}, {\tt FLT\_MIN} and {\tt FLT\_EPSILON}.
+\item What are the corresponding values for {\tt double} types?
+\item Given the following doubles:
+\begin{verbatim}
+double a = 1.0 + DBL_EPSILON;
+double b = (1.0 + DBL_EPSILON / 2.0) + DBL_EPSILON / 2.0;
+double c = 1.0 + (DBL_EPSILON / 2.0 + DBL_EPSILON / 2.0);
+\end{verbatim}
+Print out {\tt 1.0-a}, {\tt 1.0-b} and {\tt 1.0-c}, using the \verb|%g| format specifier, is this what you expect? We see even the process of summing up numbers can produce problems. One famous algorithm to sum up numbers accurately is \emph{Kahan Summation} (look this up!).
+\end{enumerate}
+\newpage
+
+\item \emph{Combatting rounding errors:} Returning to our quadratic solver, if {\tt A[1]$^2 \gg$ 4A[0]A[2] > 0}, then the calculation of one of the roots ({\tt -A[1] $\pm \sqrt{.}$})/{\tt 2A[2]} involves a subtraction of nearly equal quantities, and thus a loss of accuracy. (`Adding' two numbers of similar magnitude and different sign also results in an accuracy loss!). When possible, an alternative formulation should be sought which avoids this subtraction.
+
+One useful property of quadratics is that the roots satisfy the following expression:
+\begin{center}
+\tt root[0]*root[1] = A[0]/A[2]
+\end{center}
+Thus a more accurate way to calculate both roots of the quadratic is to choose the sign $\pm$ such that ({\tt -A[1] $\pm \sqrt{.}$})/{\tt 2A[2]} is not a subtraction, and then compute the other root from the equation above.
+
+For an example we consider how high a mobile telephone tower must be in order to transmit to a certain horizon. The relationship between the height of the tower $h$, the distance to the horizon $d$ and the radius of the Earth $R$ = 6350km is:
+$$
+h^2 + 2hR = d^2
+$$
+\begin{enumerate}
+\item Solve the above equation for values of $d$ of 1 cm, 1 meter, 100 meters, 10 km and 1000km; using {\tt quad\_sol}.
+\item Modify {\tt quad\_sol} to avoid subtraction when computing roots.
+\item Compare the modified {\tt quad\_sol} to the original, when do differences occur?
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

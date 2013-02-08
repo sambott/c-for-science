@@ -1,0 +1,94 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath,multicol}
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \oddsidemargin  -0.5in
+        \evensidemargin -0.5in
+        \textwidth      7.0in
+        \headheight     0.0in
+        \topmargin      -1.0in
+        \textheight=10.5in
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\large C for Science - Practical Exercise \#3
+\end{center}
+\begin{enumerate}
+\item Write three C functions with the following prototypes:
+\begin{verbatim}
+double v3dot (double *, double *);
+void v3cross (double *, double *, double * );
+void v3crosscross (double *, double *, double *, double *);
+\end{verbatim}
+where,
+\begin{enumerate}
+\item \verb|v3dot(a,b)| calculates the scalar product of the two vectors $\mathbf{a}$ and $\mathbf{b}$:
+\begin{center}
+{\tt v3dot(a,b)} = $\mathbf{a}\bullet\mathbf{b}$ = {\tt a[0]b[0] + a[1]b[1] + a[2]b[2]}
+\end{center}
+\item \verb|v3cross(a, b, r)| computes the vector product of $\mathbf{a}$ and $\mathbf{b}$ and stores the result in $\mathbf{r}$:
+\begin{center}
+$\mathbf{r} = \mathbf{a}\times\mathbf{b} =
+\left(\begin{array}{c}
+{\tt a[1]b[2] - a[2]b[1]}\\
+{\tt a[2]b[0] - a[0]b[2]}\\
+{\tt a[0]b[1] - a[1]b[0]}
+\end{array}\right)$
+\end{center}
+\item \verb|v3crosscross(a, b, c, r)| computes the triple vector cross product of $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{c}$ storing the result in
+$\mathbf{r}$.
+\begin{center}
+$\mathbf{r} = \mathbf{a}\times(\mathbf{b}\times\mathbf{c}) = 
+(\mathbf{a}\bullet\mathbf{c})\mathbf{b} - (\mathbf{a}\bullet\mathbf{b})\mathbf{c}$
+\end{center}
+\end{enumerate}
+
+\item Write a {\tt main} function that:
+\begin{enumerate}
+\item prompts for:
+\begin{enumerate}
+\item the 3 components of vector $\mathbf{a}$,
+\item the 3 components of vector $\mathbf{b}$, and
+\item the 3 components of vector $\mathbf{c}$.
+\end{enumerate}
+\item computes, and prints to screen, the scalar and vector products of $\mathbf{a}$ and $\mathbf{b}$, and the triple vector cross product $\mathbf{a}\times(\mathbf{b}\times\mathbf{c})$.
+\end{enumerate}
+\item Test the code on the two data sets:
+\begin{enumerate}
+\item $\mathbf{a} = (1,1,0)^\mathrm{T}, \quad \mathbf{b} = (0, 1,1)^\mathrm{T}, \quad \mathbf{c} = (1, 0, 1)^\mathrm{T}$, and
+\item $\mathbf{a} = (1,-1,2)^\mathrm{T}, \quad \mathbf{b} = (2,1,1)^\mathrm{T},
+\quad \mathbf{c} = (1,2,11)^\mathrm{T}$
+\end{enumerate}
+\item For data set (a) above and using fopen() and fprintf(), print $\mathbf{a}\times(\mathbf{b}\times\mathbf{c})$ and
+$(\mathbf{a}\times\mathbf{b})\times\mathbf{c}$ to text files \verb|vector1.txt| and \verb|vector2.txt| respectively. Are they the same?
+\item The Identity Matrix, $\mathbf{I}$ is the $n \times n$ square matrix, with a leading diagonal of ones and zeros elsewhere:
+\begin{center}
+$I_1 = \begin{bmatrix}
+1 \end{bmatrix}
+,\ 
+I_2 = \begin{bmatrix}
+1 & 0 \\
+0 & 1 \end{bmatrix}
+,\ 
+I_3 = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \end{bmatrix}
+,\ \cdots ,\ 
+I_n = \begin{bmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1 \end{bmatrix}$
+\end{center}
+\begin{enumerate}
+\item Create functions to print and free matrices (you can copy these from today's lecture).
+\item Create a function to create $I_n$ with the following prototype:
+\begin{verbatim}
+double ** matrixI(int n);
+\end{verbatim}
+Similar to today's matrix-allocating function, this should allocate and return an $n \times n$ matrix (of type \texttt{double **}) from the heap. The returned matrix should have the appropriate values set for $I_n$.
+\item Create a \texttt{main} function to prompt for $n$ and print $I_n$ to \texttt{stdout}.
+\end{enumerate}
+\end{enumerate}
+\end{document}

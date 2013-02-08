@@ -1,0 +1,5 @@
+
+The triple vector cross-product of (a x b) x c is:
+(    -1 )
+(     0 )
+(     1 )

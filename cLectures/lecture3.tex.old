@@ -1,0 +1,1032 @@
+\documentclass[smaller,handout,table]{beamer}
+
+\usetheme{clecturesty}
+
+\subtitle{Lecture 3 of 5}
+
+\begin{document}
+
+{
+\logo{\includegraphics[width=0.30\textwidth]{imperialblue}}
+\begin{frame}
+  \titlepage
+\end{frame}
+}
+
+
+\section{Characters and Strings}
+\subsection{Last Week...}
+\begin{frame}{Last Week...}
+\begin{itemize}
+\item Terse Code is used for concise code.
+\item Functions structure our code fragments into reusable routines.
+\item Arrays hold multiple values of one type.
+\item Debugging code allows us to find problems in our code or input.
+\item Scope - variable lifetime - has been introduced.
+\item Projects allow us to make a program from multiple \texttt{.c} files.
+\end{itemize}
+\end{frame}
+
+
+\subsection{Characters}
+\begin{frame}
+\frametitle{Bytes (or {\tt char}s)}
+\begin{itemize}
+\item We've mentioned {\tt \kw{char}}s briefly so far, and used them extensively whilst drawing little attention to them.
+\item {\tt \kw{char}} is the smallest data type in C, {\tt \kw{sizeof}(\kw{char})=1} byte (this is explicitly stated in the standard).
+\item We can perform integer computations using {\tt \kw{char}} and {\tt \kw{unsigned char}}.
+\item The most common use for {\tt \kw{char}} is as part of a string.
+\item We can assign single letters as follows:
+\begin{center}
+{\tt \kw{char} letter = \kt{'a'};}
+\end{center}
+where we use single quotes.
+\item An array of {\tt \kw{char}}s is specified using double quotes:
+\begin{center}
+\tt \kw{char} * name = \kt{"Sam B"};
+\end{center}
+\end{itemize}
+\end{frame}
+
+
+\newcommand{\scs}[1]{\scriptsize \sc#1}
+\newcommand{\scc}[1]{$\mathtt{\backslash}$\tt#1}
+
+\begin{frame}[fragile]
+\frametitle{ASCII Table}
+\resizebox{\textwidth}{!}{
+\rowcolors[]{1}{blue!20}{blue!10}
+\begin{tabular}{c| c c c c c c c c c c c c c c c c}
+&0&1&2&3&4&5&6&7&8&9&A&B&C&D&E&F\\
+\hline
+0&\scc0&\scs soh & \scs stx & \scs etx&
+\scs eot&\scs enq&\scs ack&\scc a&\scc b&\scc t&\scc n&
+\scs vt&\scc f&\scc r&\scs so&\scs si\\
+1&\scs dle&\scs dc1&\scs dc2&\scs dc3&\scs dc4
+&\scs nak&\scs syn&\scs etb&\scs can&\scs em&\scs sub&
+\scs esc&\scs fs&\scs gs&\scs rs&\scs us\\
+2&\tt' '&\tt!&\tt"&\tt\#&\tt\$&\tt\%&\tt\&&\tt'&\tt(&\tt)&
+\tt*&\tt+&\tt,&\tt-&\tt.&\tt/\\
+3&\tt0&\tt1&\tt2&\tt3&\tt4&\tt5&\tt6&\tt7&\tt8&\tt9&\tt:&\tt;
+&\tt<&\tt=&\tt>&\tt?\\
+4&\tt@&\tt{A}&\tt{B}&\tt{C}&\tt{D}&\tt{E}&\tt{F}&\tt{G}&\tt{H}&
+\tt{I}&\tt{J}&\tt{K}&\tt{L}&\tt{M}&\tt{N}&\tt{O}\\
+5&\tt{P}&\tt{Q}&\tt{R}&\tt{S}&\tt{T}&\tt{U}&\tt{V}&\tt{W}&\tt{X}&
+\tt{Y}&\tt{Z}&\tt[&$\mathtt{\backslash}$&\tt]&\tt\^&\tt\_\\
+6&\tt`&\tt{a}&\tt{b}&\tt{c}&\tt{d}&\tt{e}&\tt{f}&\tt{g}&\tt{h}&
+\tt{i}&\tt{j}&\tt{k}&\tt{l}&\tt{m}&\tt{n}&\tt{o}\\
+7&\tt{p}&\tt{q}&\tt{r}&\tt{s}&\tt{t}&\tt{u}&\tt{v}&\tt{w}&
+\tt{x}&\tt{y}&\tt{z}&\tt\{&\tt|&\tt\}&\tt\~&\scs del
+\end{tabular}}
+\begin{itemize}
+\item Characters 0x00 to 0x1f (31) are \emph{non-printable}.
+\item Characters 0x80 (128) to 0xff (255) are \emph{extended characters}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Demo of {\tt char}}
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{\#include} \kt{<stdio.h>}
+\kl
+\kl\kw{int} main()
+\kl\{
+\kl   \kw{char} * name = \kt{"Grace"};
+\kl   printf(name); \kc{/* not recommended, but allowed*/}
+\kl   printf(\kt{"\\nname    = \%s\\n"}, name);
+\kl   printf(\kt{"name[0] = \%c = \%d\\n}", name[0], name[0]);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+Gives the following output:
+\begin{semiverbatim}
+Grace
+name    = Grace
+name[0] = G = 71
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some useful {\tt char} Functions}
+\begin{block}{For {\tt char}s}
+\begin{tabular}{l p{200pt}}
+\tt isalpha(c)&True (non-zero) if {\tt c} is from {\tt A-Z},{\tt a-z}\\
+\tt isdigit(c)&True if {\tt c} if from {\tt 0-9}\\
+\tt isalnum(c)&={\tt (isalpha(c) || isdigit(c))}\\
+\tt islower(c)&True if {\tt c} is from {\tt a-z}\\
+\tt isupper(c)&True if {\tt c} is from {\tt A-Z}\\
+\tt d=tolower(c)&Convert to lowercase (if {\tt isupper(c)}), otherwise it returns {\tt c}\\
+\tt d=toupper(c)&Convert to uppercase (if {\tt islower(c)}), otherwise it returns {\tt c}
+\end{tabular}
+\end{block}
+\end{frame}
+
+\subsection{Strings}
+\begin{frame}
+\frametitle{Layout of a String in Memory}
+Given: {\tt \kw{char} * string = \kt{"A string in C!"};}
+In memory this looks like:
+\begin{center}
+\begin{tikzpicture}[]
+\foreach \x in {0.0, 0.4, ..., 5.6}
+   \shadedraw [top color=green!50,shading angle=45] (\x,0) rectangle +(0.4,0.4);
+\foreach \x in {0.0, 0.4, ..., 5.6}
+   \shadedraw [top color=green!50,shading angle=45] (\x,0.4) rectangle +(0.4,0.4); \node at (0.2, 0.2) {\tiny65};
+\node at (0.6, 0.2) {\tiny32};
+\node at (1.0, 0.2) {\tiny115};
+\node at (1.4, 0.2) {\tiny116};
+\node at (1.8, 0.2) {\tiny114};
+\node at (2.2, 0.2) {\tiny105};
+\node at (2.6, 0.2) {\tiny110};
+\node at (3.0, 0.2) {\tiny103};
+\node at (3.4, 0.2) {\tiny32};
+\node at (3.8, 0.2) {\tiny105};
+\node at (4.2, 0.2) {\tiny110};
+\node at (4.6, 0.2) {\tiny32};
+\node at (5.0, 0.2) {\tiny67};
+\node at (5.4, 0.2) {\tiny33};
+\node at (5.8, 0.2) {\tiny0};
+
+\node at (0.2, 0.6) {\tt A};
+\node at (1.0, 0.6) {\tt s};
+\node at (1.4, 0.6) {\tt t};
+\node at (1.8, 0.6) {\tt r};
+\node at (2.2, 0.6) {\tt i};
+\node at (2.6, 0.6) {\tt n};
+\node at (3.0, 0.6) {\tt g};
+\node at (3.8, 0.6) {\tt i};
+\node at (4.2, 0.6) {\tt n};
+\node at (5.0, 0.6) {\tt C};
+\node at (5.4, 0.6) {\tt !};
+\node at (5.8, 0.6) {\tiny\tt $\backslash$0};
+
+\node at (-0.2, 0.2) {\tiny\tt\%d};
+\node at (-0.2, 0.6) {\tiny\tt\%c};
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+\item All strings in C are terminated by 0 (or {\tt \kt{'$\backslash$0'}}).
+\item {\tt \kw{char}} values of 0-127 correspond to \emph{ASCII} codes, their use should be relatively consistent between different compilers.
+\item All other values correspond to \emph{extended ASCII} codes, the representations of which vary considerably between compilers.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some useful String Functions}
+\begin{block}{\tt strlen(s)}
+Returns the number of characters pointed to by {\tt s}, the trailing {\tt NULL} ({\tt \kt{'$\backslash$0'}}) is excluded!
+\end{block}
+\begin{block}{\tt strncpy(dest, source, length)}
+Copies a maximum of {\tt length} characters from {\tt source} to {\tt dest}.
+\end{block}
+\begin{block}{\tt int strncmp(s1, s2, length)}
+Compares a maximum of {\tt length} characters of {\tt s1} and {\tt s2}. Note that {\tt strncmp} returns 0 (usually false) for equality!
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A String Demo}
+\vspace{-0.2in}
+\begin{semiverbatim}
+\tiny
+\kr\kl\kw{\#include} \kt{<stdio.h>}
+\kl\kw{\#include} \kt{<string.h>}
+\kl\kw{\#include} \kt{<stdlib.h>}
+\kl\kw{\#include} \kt{<ctype.h>}
+\kl
+\kl\kw{int} main()
+\kl\{
+\kl   \kw{unsigned int} loop;
+\kl   \kw{char} * string = \kt{"A string in C!"}, * copy;
+\kl   printf(\kt{"strlen(string) = \%d\\n"}, strlen(string));
+\kl   copy = (char *) calloc(strlen(string)+1, 1);
+\kl   \kw{if} (!copy)
+\kl   \{
+\kl      fprintf(stderr, \kt{"Couldn't allocate buffer!\\n"});
+\kl      \kw{return} -1;
+\kl   \}
+\kl   
+\kl   strncpy(copy, string, strlen(string));
+\kl   printf(\kt{"strncmp(string, copy) = \%d\\n"},
+\kl         strncmp(string, copy, strlen(string)));
+\kl         
+\kl   \kw{for} (loop = 0; loop < strlen(copy); loop++)
+\kl      copy[loop] = toupper(copy[loop]);
+\kl      
+\kl   printf(\kt{"modified copy = \\"\%s\\"\\n"}, copy);
+\kl   printf(\kt{"strncmp(string, copy) = \%d\\n"},
+\kl         strncmp(string, copy, strlen(string)));
+\kl         
+\kl   free(copy);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Results from String Demo}
+The program on the previous slide gives the following output:
+\begin{semiverbatim}
+strlen(string) = 14
+strncmp(string, copy) = 0
+modified copy = "A STRING IN C!"
+strncmp(string, copy) = 32
+\end{semiverbatim}
+\begin{itemize}
+\item Note that {\tt strncmp} returns {\tt 0} for \emph{equality} and non-zero otherwise.
+\item Case insensitive string comparisons can be made using: {\tt strnicmp}.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Streams}
+\subsection{Standard Streams}
+\begin{frame}
+\frametitle{Input and Output in C - Streams}
+\begin{itemize}
+\item All I/O in C is accomplished via file \emph{streams}.
+\item This stems from C's UNIX roots (every device is a file).
+\item We have already seen {\tt printf}, formatted output to console.
+\item C90 defines three streams which are initialised by default when a program starts.
+\begin{center}
+\rowcolors[]{1}{blue!20}{blue!10}
+\begin{tabular}{l l}
+{\tt stdin}&Input from the keyboard. (read only)\\
+{\tt stdout}&Text console. (write only)\\
+{\tt stderr}&Another text console. (write only)
+\end{tabular}
+\end{center}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why have {\tt stderr}?}
+\begin{exampleblock}{Stream Redirection}
+\begin{itemize}
+\item Your console allows for a C program's streams to be \emph{redirected} at the command line.
+\item This is completely transparent to the C program (it just reads and writes data oblivious to the source).
+\item One can redirect {\tt stdout} using ({\tt >}) as follows:
+\begin{center}
+\tt myprogram > output.txt
+\end{center}
+\item {\tt stderr} can be redirected using ({\tt 2>}):
+\begin{center}
+\tt myprogram 2> errorlog.txt
+\end{center}
+\item {\tt stdin} can be redirected using ({\tt <}):
+\begin{center}
+\tt myprogram < input.txt
+\end{center}
+\end{itemize}
+\end{exampleblock}
+Having a separate \emph{error stream}, allows for important messages to be filtered from data output.
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{{\tt printf} and {\tt scanf} - formatted output and input}
+These are automatically connected to {\tt stdout} and {\tt stdin} respectively. The more generalised functions are {\tt fprintf} and {\tt fscanf}. As an example:
+\begin{semiverbatim}
+fprintf(stdout, \kt{"Text to stdout...\\n"});
+fprintf(stderr, \kt{"Text to stderr...\\n"});
+\end{semiverbatim}
+We can also read text from a stream:
+\begin{semiverbatim}
+fscanf(stdin, \kt{"%lf"}, \&ptrDouble);
+\end{semiverbatim}
+\begin{itemize}
+\item Additional streams can be opened using {\tt fopen}.
+\end{itemize}
+\end{frame}
+
+\subsection{Opening Files}
+\begin{frame}
+\frametitle{{\tt fopen} - open a file stream}
+\begin{semiverbatim}
+\small
+FILE * stream = fopen(\kw{char} * filename, \kw{char} * mode);
+\end{semiverbatim}
+
+Working backwards, {\tt mode} is a string telling C how to open the file:
+{\footnotesize
+\begin{center}
+\rowcolors[]{1}{blue!20}{blue!10}
+\begin{tabular}{l p{250pt}}
+\tt mode& meaning\\
+\tt "r"& Open {\tt filename} for reading. The file must exist or {\tt NULL} is returned.\\
+\tt "w"& Open {\tt filename} for writing, starting from the beginning of the file. The file will be created if it doesn't already exist. Any old data will be overwritten.\\
+\tt "a"& Open {\tt filename} for writing, starting from the end of the file. File will be \emph{appended} if it does exist and created otherwise.\\
+\tt "r+"& Open {\tt filename} for reading and writing, starting from the beginning. If the file doesn't exist, {\tt NULL} is returned.\\
+\tt "w+"& Open {\tt filename} for reading and writing, starting from the beginning. If the file doesn't exist it's created.\\
+\tt "a+"& Open {\tt filename} for reading and writing (append if exists).
+\end{tabular}
+\end{center}}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{{\tt fopen} - II}
+\begin{semiverbatim}
+\small
+FILE * stream = fopen(\kw{char} * filename, \kw{char} * mode);
+\end{semiverbatim}
+\begin{block}{\tt filename}
+Must be a legal operating system file name. A safe option would be something similar to:
+\vspace{-0.1in}
+\begin{center}
+\tt \kt{"results.txt"}
+\end{center}
+\end{block}
+
+\begin{alertblock}{Absolute Filenames}
+We can specify a full directory path to a filename:
+\vspace{-0.2in}
+\begin{semiverbatim}
+\footnotesize
+data = fopen(\kt{"C:\\\\TEMP\\\\mydata.dat"}, \kt{"w"}); \kc{/* Windows */}
+data = fopen(\kt{"/tmp/mydata.dat"}, \kt{"w"});      \kc{/* UNIX */}
+\end{semiverbatim}
+\end{alertblock}
+
+\begin{exampleblock}{Relative Filenames}
+It is much safer to omit the full path:
+\vspace{-0.2in}
+\begin{semiverbatim}
+\footnotesize
+data = fopen(\kt{"mydata.dat"}, \kt{"w"}); \kc{/* works on most os' */}
+\end{semiverbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{{\tt fopen} - III}
+\begin{semiverbatim}
+\small
+FILE * stream = fopen(\kw{char} * filename, \kw{char} * mode);
+\end{semiverbatim}
+\vspace{-0.1in}
+\begin{itemize}
+\item Here {\tt stream} is a pointer to a {\tt FILE} data type.
+\item {\tt stdin}, {\tt stdout} and {\tt stderr} are also pointers (which are opened automatically for us).
+\item Sometimes it is not possible to open a file (it may not exist, or belong to another user etc...), in this case a special pointer value {\tt NULL} (which is equal to zero) is returned.
+\end{itemize}
+
+\begin{block}{{\tt NULL} pointers}
+A {\tt NULL} pointer is a special value, usually signalling failure. This can be checked for:
+\vspace{-0.2in}
+\begin{semiverbatim}
+\footnotesize
+stream = fopen(\kt{"illegal/\\\\filename.txt"}, \kt{"w"});
+if (!stream)
+\{
+   fprintf(stderr, \kt{"Unable to open file\\n"});
+   ...
+\end{semiverbatim}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{{\tt fclose} - Closing a file stream}
+\begin{itemize}
+\item Any file streams {\tt fopen}'ed should be closed using:
+\begin{center}
+\tt fclose(stream);
+\end{center}
+\begin{itemize}
+\item File read/writes may go to an internal buffer before they go to the disk (to speed things up).
+\item An explicit file close ensures that any pending data is written to disk.
+\end{itemize}
+\item For the lazy there is:
+\begin{center}
+\tt fcloseall();
+\end{center}
+\item Do \emph{NOT} call {\tt fclose} on any of the following:
+\begin{center}
+{\tt stdin, stdout} \& \tt stderr
+\end{center}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Moving around a file - {\tt rewind}, {\tt ftell} and {\tt fseek}}
+\begin{block}{\tt rewind(stream);}
+Start the next read/write from the beginning of the file.
+\end{block}
+
+\begin{block}{\tt fpos = ftell(stream);}
+Get an \kw{\tt int} telling us how far we are in the file (from the beginning).
+\end{block}
+
+\begin{block}{\tt fseek(stream, fpos, SEEK\_SET);}
+Move {\tt fpos} bytes into the file (counted from the beginning).
+\end{block}
+
+\begin{block}{\tt fseek(stream, fpos, SEEK\_CUR);}
+Move {\tt fpos} bytes forward into file (from current position).
+\end{block}
+
+\begin{block}{\tt fseek(stream, fpos, SEEK\_END);}
+Move {\tt fpos} bytes from the end of the file.
+\end{block}
+\end{frame}
+
+\subsection{File Types}
+\begin{frame}
+\frametitle{File Types}
+Files in C can contain data in two formats:
+\begin{enumerate}
+\item As text, where each byte is interpreted as an ASCII character mapping.
+\item Or as raw \emph{binary} data, the meaning of which is left to the program to determine.
+\end{enumerate}
+
+These files are referred to as text files and binary files respectively. All the I/O covered so far applies to text files.
+
+\begin{block}{}
+\begin{center}
+Each format has it's advantages and disadvantages.
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Text versus Binary Files}
+\begin{block}{Text Files}
+\begin{itemize}
+{\setbeamercolor{local structure}{parent=example text}
+\item \textcolor{green}{Pro} - Can be read by almost any program on almost any computer. (And by humans!).
+}
+{\setbeamercolor{local structure}{parent=alerted text}
+\item \textcolor{red}{Con} - Inefficient - Numbers can take up much more space than necessary.}
+\end{itemize}
+\end{block}
+
+\begin{block}{Binary Files}
+\begin{itemize}
+{\setbeamercolor{local structure}{parent=example text}
+\item \textcolor{green}{Pro} - Accurate and efficient.
+}
+{\setbeamercolor{local structure}{parent=alerted text}
+\item \textcolor{red}{Con} - Incompatible - Binary data can be very difficult to read by other programs, and incredibly difficult between processor architectures.}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{Binary Files}
+\begin{frame}[fragile]
+\frametitle{Variable sizes}
+\begin{itemize}
+\item Different data types take up different amounts of memory.
+\item Example \kw{\tt float} is smaller than \kw{\tt double}.
+\item The \kw{\tt sizeof} keyword gives a type's size (in bytes).
+\end{itemize}
+
+{
+\small
+\begin{semiverbatim}
+\kw{\#include} \kt{<stdio.h>}
+
+\kw{int} main()
+\{
+   printf(\kt{"sizeof(float) = \%d\\n"}, \kw{sizeof}(\kw{float}));
+   printf(\kt{"sizeof(double) = \%d\\n"}, \kw{sizeof}(\kw{double}));
+   printf(\kt{"sizeof(int) = \%d\\n"}, \kw{sizeof}(\kw{int}));
+   printf(\kt{"sizeof(short) = \%d\\n"}, \kw{sizeof}(\kw{short}));
+   \kw{return} 0;
+\}
+\end{semiverbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Handling Binary Files}
+Binary files are opened using {\tt fopen}, we need to add {\tt "b"} to the file mode though:
+\begin{semiverbatim}
+stream = fopen(\kt{"data.dat"}, \kt{"rb"});
+\end{semiverbatim}
+Data is read from and written to a binary file using {\tt fread} and {\tt fwrite}. For example:
+\begin{semiverbatim}
+\kw{double} values[10] = \{0.0\};
+\kc{/* we have "stream" an open binary file */}
+read = fread(values, \kw{sizeof}(\kw{double}), 10, stream);
+\kw{if} (read != 10)
+\{ \emph{read failed} \}
+\end{semiverbatim}
+\begin{block}{}
+\begin{center}
+Please see \kt{\tt <stdio.h>} for more details.
+\end{center}
+\end{block}
+\end{frame}
+
+\subsection{Temporary Files}
+\begin{frame}[fragile]
+\frametitle{Permanent versus Temporary Files}
+\begin{itemize}
+\item Sometimes we may not wish for a file to be permanent.
+\item Temporary files provide a means for storing intermediate computations.
+\item We open a temporary file using the {\tt tmpfile()} function.
+\end{itemize}
+\begin{block}{Example}
+\begin{semiverbatim}
+stream = tmpfile();
+\kw{if} (!stream)
+\{
+\kc{/* handle failure */}
+\}
+\kc{/* fread, fwrite, fprintf, fscanf */}
+fclose(stream);
+\end{semiverbatim}
+\end{block}
+\end{frame}
+
+
+\section{Allocation Memory}
+\subsection{Borrowing From the Heap}
+\begin{frame}
+\frametitle{Dynamic Allocation}
+\begin{block}{The heap}
+\begin{itemize}
+\item C has set aside a special block of memory known as the \emph{heap}.
+\item Memory can be requested from the heap.
+\item If memory is available, it is provided, otherwise a request is made to the operating system.
+\item The implementation details of the heap are ``undefined''.
+\end{itemize}
+\end{block}
+\begin{block}{\tt sizeof}
+\begin{itemize}
+\item We need to know how much memory to request.
+\item The \kw{\tt sizeof} keyword returns the size (in bytes), of a variable or data type.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{How to Borrow Memory}
+We use the {\tt malloc} function (defined in \kt{\tt <stdlib.h>}) to request memory and {\tt free} to return it to the heap.
+\vspace{-0.1in}
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{\#include} \kt{<stdio.h>}
+\kl\kw{\#include} \kt{<stdlib.h>}
+\kl\kw{\#define} NCOUNT 10
+\kl\kw{int} main()
+\kl\{
+\kl   \kw{int} * numbers, loop;
+\kl   numbers = (\kw{int} *) malloc(\kw{sizeof}(\kw{int})*NCOUNT);
+\kl   \kw{if} (!numbers)
+\kl   \{
+\kl      fprintf(stderr, \kt{"Unable to allocate memory\\n"});
+\kl      return -1;
+\kl   \}
+\kl   \kw{for} (loop = 0; loop < NCOUNT; loop++)
+\kl      numbers[loop] = loop;
+\kl
+\kl   \kw{for} (loop = 0; loop < NCOUNT; loop++)
+\kl      printf(\kt{"numbers[\%d] = \%d\\n"}, loop, numbers[loop]);
+\kl
+\kl   \kw{free}(numbers);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{How to Borrow Memory - Details}
+\begin{semiverbatim}
+      \kw{void} * malloc(size_t Size);
+      \kw{void} free(\kw{void} * Memory);
+\end{semiverbatim}
+\begin{block}{What is {\tt void *}?}
+\begin{itemize}
+\item {\tt \kw{void} *} is a pointer to an unknown data type, it consists only of an address.
+\item We can explicitly cast from {\tt \kw{void} *} to any other pointer type.
+\item Any pointer type can be implicitly casted to a {\tt \kw{void} *}.
+\item A value of {\tt NULL} usually means that a function encountered an error.
+\end{itemize}
+\end{block}
+
+\begin{block}{What is {\tt size\_t}?}
+{\tt size\_t} is defined to be an unsigned integer type large enough to hold numbers returned by {\tt \kw{sizeof}}.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{How to Borrow Memory - More Details}
+Two more, useful memory management functions are:
+\begin{center}
+\rowcolors[]{1}{blue!20}{blue!10}
+\begin{tabular}{l l}
+\tt realloc&Modifies the size of a memory block.\\
+\tt calloc&Allocates memory, and sets every byte to 0.\\
+\end{tabular}
+\end{center}
+\begin{alertblock}{Some common heap problems}
+\begin{itemize}
+\item Allocating memory is slow and should be done as few times as possible.
+\item Memory allocation can fail, every {\tt malloc}/{\tt calloc} should be checked (or at the very least {\tt assert}ed).
+\item Every {\tt malloc}/{\tt calloc} should have a corresponding {\tt free}, memory is \emph{leaked} if it's not {\tt free}d after use.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{1-D Example: Fibonacci (again!)}
+\begin{semiverbatim}
+\tiny
+\kr\kl\kw{\#include} \kt{<stdlib.h>}
+\kl\kw{\#include} \kt{<stdio.h>}
+\kl
+\kl\kw{int} main()
+\kl\{
+\kl   \kw{double} * fibs;
+\kl   \kw{unsigned int} nfibs=0, loop;
+\kl   \kw{while} (nfibs < 2)
+\kl   \{
+\kl      printf(\kt{"How many Fibonacci numbers are needed (>1)?\\n"});
+\kl      scanf(\kt{"\%u"}, \&nfibs);
+\kl   \}
+\kl   
+\kl   fibs = (\kw{double} *) malloc(\kw{sizeof}(\kw{double})*nfibs);
+\kl   \kw{if} (!fibs) \kc{/* malloc failed? */}
+\kl   \{
+\kl      fprintf(stderr, \kt{"Unable to allocate memory!\\n"});
+\kl      \kw{return} -1;
+\kl   \}       
+\kl   
+\kl   fibs[0] = 1.0; fibs[1] = 1.0;
+\kl   \kw{for} (loop = 2; loop < nfibs; loop++)
+\kl      fibs[loop] = fibs[loop-1]+fibs[loop-2];
+\kl      
+\kl   \kw{for} (loop = 0; loop < nfibs; loop++)
+\kl      printf(\kt{"fib[\%u] = \%lg\\n"}, loop, fibs[loop]);
+\kl      
+\kl   free(fibs);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pointers to Pointers: {\tt **ptr}}
+\begin{itemize}
+\item Pointers in C are very flexible, to the extent that we can form pointers to pointers!
+\item This is known more formally as the ``level of indirection''.
+\item Tensors of arbitrary rank (Fortran 95 is limited to 7) can be formed easily in C.
+\item The most useful example in C being matrices.
+\end{itemize}
+\begin{block}{Matrices in C}
+Matrices in C are commonly represented by the {\tt \kw{double} **} type. This means ``a pointer to a pointer to a {\tt \kw{double}}''.
+\end{block}
+\end{frame}
+
+
+\section{Matrices}
+\subsection{Pointers III}
+\begin{frame}[fragile]
+\frametitle{Pointers and Arrays}
+We saw the connection between arrays and pointers in the last lecture. Given the array:
+\begin{center}
+\tt \kw{double} ar [4] = \{1.0, 2.0, 3.0, 4.0\};
+\end{center}
+The elements of this array can be accessed as follows:
+\begin{semiverbatim}
+      *(ar) == ar[0] == 1.0
+    *(ar+1) == ar[1] == 2.0
+    *(ar+2) == ar[2] == 3.0
+\end{semiverbatim}
+Pointer referencing is also supported:
+\begin{semiverbatim}
+        ar == \&ar[0]
+    (ar+1) == \&ar[1]
+    (ar+2) == \&ar[2]
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}
+\frametitle{Allowed Pointer Operations}
+\begin{tabular}{l l}
+Declaration:&{\tt \kw{double} * pA, * pB;}\\
+Assignment:&{\tt pA = \&var;}\\
+Increment:&{\tt pA = pA + 1;}\\
+Decrement:&{\tt pA = pA - 1;}\\
+Difference:&{\tt gap = pA - pB;}\\
+Comparison:&{\tt \kw{if}(pA == pB)}\\
+De-referencing:&{\tt *pA = val;}
+\end{tabular}
+\end{frame}
+
+\subsection{Fixed Sized Matrices}
+\begin{frame}[fragile]
+\frametitle{Fixed Size Two-Dimensional Arrays}
+We can declare arrays of dimension higher than one, as follows:
+\begin{semiverbatim}
+\kw{double} a[2][3] = \{\{1.0, 2.0, 3.0\},
+                  \{2.0, 3.0, 4.0\}\};
+\end{semiverbatim}
+Where the elements of {\tt a} are denoted as expected:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\tt a[0][0]&\tt a[0][1]&\tt a[0][2]\\
+\hline
+\tt a[1][0]&\tt a[1][1]&\tt a[1][2]\\
+\hline
+\end{tabular}
+\end{center}
+To access the top left element:
+\begin{semiverbatim}
+myVal = a[0][0]; \kc{/* equal to 1.0 */}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Fixed Size Two-Dimensional Arrays II}
+\vspace{-0.2in}
+\begin{semiverbatim}
+\footnotesize
+\kr\kl\kw{\#include} \kt{<stdio.h>}
+\kl\kw{\#define} COLS 3
+\kl
+\kl\kw{void} printArray(\kw{int} matrix[][COLS], int rows)
+\kl\{
+\kl   \kw{int} i, j;
+\kl   \kw{for} (i = 0; i < rows; i++)
+\kl   \{
+\kl      \kw{for} (j = 0; j < COLS; j++)
+\kl         printf(\kt{"\%d "}, matrix[i][j]);    
+\kl      printf(\kt{"\\n"});
+\kl   \}
+\kl\}
+\kl
+\kl\kw{int} main()
+\kl\{
+\kl   \kw{int} matrix[2][COLS] = \{\{1, 2, 3\},\{4, 5, 6\}\};
+\kl   printArray(matrix, 2);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fixed Size Two-Dimensional Arrays III}
+We have seen an example of a two dimensional array:
+\begin{center}
+%\rowcolors[]{1}{blue!20}{blue!10}
+\begin{tabular}{|c|c|c|}
+\hline
+\tt a[0][0]&\tt a[0][1]&\tt a[0][2]\\
+\hline
+\tt a[1][0]&\tt a[1][1]&\tt a[1][2]\\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item In memory it is arranged as follows:
+\resizebox{0.9\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\tt a[0][0]&\tt a[0][1]&\tt a[0][2]&
+\tt a[1][0]&\tt a[1][1]&\tt a[1][2]\\
+\hline
+\end{tabular}}
+(i.e. as a one dimensional array).
+\item Fixed size arrays are very inflexible as they require the dimensions to be ``hard coded''.
+\item They are allocated from the stack thus large arrays may cause problems.
+\item \emph{Dynamically allocated} arrays overcome these restrictions.
+\end{itemize}
+\end{frame}
+
+\subsection{Dynamically Allocating Matrices}
+\begin{frame}[fragile]
+\frametitle{Constructing Matrices with Pointers}
+\vspace{-0.2in}
+\begin{semiverbatim}
+\footnotesize
+\kr\kl\kw{double} ** makeMatrix(\kw{unsigned int} rows, \kw{unsigned int} cols)
+\kl\{
+\kl   \kw{unsigned int} i;
+\kl   \kw{double} ** matrix;
+\kl        
+\kl   matrix = (\kw{double} **) malloc(rows * \kw{sizeof}(\kw{double} *));
+\kl   \kw{if} (!matrix) \kw{return} NULL; \kc{/* failed */}
+\kl
+\kl   \kw{for} (i = 0; i < rows; i++)
+\kl   \{
+\kl      matrix[i] = (\kw{double} *) malloc(cols*\kw{sizeof}(\kw{double}));
+\kl      \kw{if} (!matrix[i])
+\kl         \kw{return} NULL; \kc{/* lazy, we should really free} 
+\kl                         \kc{all the memory allocated above */}
+\kl   \}
+\kl
+\kl   \kw{return} matrix;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Accessing Matrix Elements}
+\begin{block}{Usage pattern for {\tt makeMatrix}}
+\begin{semiverbatim}
+\kw{double} ** matrix = makeMatrix(rows, cols);
+\kw{for} (i=0; i < rows; i++)
+   \kw{for} (j=0; j < cols; j++)
+      matrix[i][j] = 0.0;
+\emph{free the matrix}      
+\end{semiverbatim}
+\end{block}
+\begin{itemize}
+\item Accessing the dynamically allocated array looks identical to the fixed size ones, but ``under the hood'' things are a little different:
+\begin{alertblock}{}
+\begin{center}
+\tt matrix[row][col] = *(*(matrix + row) + col)
+\end{center}
+\end{alertblock}
+\item The {\tt makeMatrix} code on the previous slide contained a lot of {\tt malloc} statements, is there a better way to allocate a matrix? (yes!)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A Better Way of Allocating Matrices}
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{double} ** allocMatrix(\kw{unsigned int} rows, \kw{unsigned int} cols)
+\kl\{
+\kl   \kw{double} ** matrix;
+\kl   \kw{unsigned int} i;
+\kl
+\kl   matrix = (\kw{double} **) malloc (rows*sizeof(\kw{double} *));
+\kl   \kw{if} (!matrix) \kw{return} NULL; \kc{/* failed */}
+\kl
+\kl   matrix[0] = (\kw{double} *) malloc (rows*cols*\kw{sizeof}(\kw{double}));
+\kl   \kw{if} (!matrix[0])
+\kl   \{
+\kl      free(matrix); \kc{/* we don't need matrix any more */}
+\kl      \kw{return} NULL;  \kc{/* failed */}
+\kl   \}
+\kl
+\kl   \kw{for} (i = 1; i < rows; i++)
+\kl      matrix[i] = matrix[i-1] + cols;
+\kl
+\kl   \kw{return} matrix;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Why is {\tt allocMatrix} Better?}
+\begin{itemize}
+\item {\tt allocMatrix} only uses 2 {\tt malloc}s whilst, {\tt makeMatrix} uses {\tt cols + 1}.
+\item Meaning there are fewer points of failure (we only check two pointers for {\tt NULL}),
+\item It is much easier to free a matrix allocated with the {\tt allocMatrix} function, all we need to do is:
+\begin{semiverbatim}
+\kw{void} freeMatrix(\kw{double} ** matrix)
+\{
+   free(matrix[0]);
+   free(matrix);
+\}
+\end{semiverbatim}
+\end{itemize}
+\end{frame}
+
+\subsection{Working with Matrices}
+\begin{frame}
+\frametitle{Case Study: Matrix Addition}
+Let's define some utility functions to:
+\begin{enumerate}
+\item Allocate memory for the matrix ({\tt allocMatrix}) - {\bf done},
+\item Free a matrix ({\tt freeMatrix}) - {\bf done},
+\item Print a matrix ({\tt printMatrix}),
+\item Create a random matrix ({\tt randomMatrix}),
+\item Add matrices together ({\tt addMatrices})
+\end{enumerate}
+We drive all these functions using a {\tt main} function.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{{\tt printMatrix} and {\tt randomMatrix}}
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{void} printMatrix(\kw{double} ** matrix, \kw{unsigned int} rows,
+\kl                                   \kw{unsigned int} cols)
+\kl\{
+\kl   \kw{unsigned int} i, j;
+\kl
+\kl   \kw{for} (i = 0; i < rows; i++)
+\kl   \{
+\kl      \kw{for} (j = 0; j < cols; j++)
+\kl         printf(\kt{"\%8.5lf "}, matrix[i][j]);
+\kl      printf(\kt{"\\n"});
+\kl   \}
+\kl\}
+\end{semiverbatim}
+
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{void} randomMatrix(\kw{double} ** matrix, \kw{unsigned int} rows,
+\kl                                    \kw{unsigned int} cols)
+\kl\{
+\kl   \kw{unsigned int} i, j;
+\kl   \kw{for} (i = 0; i < rows; i++)
+\kl      \kw{for} (j = 0; j < cols; j++)
+\kl         matrix[i][j] = (\kw{double})rand()/RAND_MAX;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{{\tt addMatrices}}
+\begin{semiverbatim}
+\scriptsize
+\kr\kl\kw{void} addMatrices(\kw{double} ** matrixA, \kw{double} ** matrixB,
+\kl                 \kw{double} ** matrixR,
+\kl                 \kw{unsigned int} rows, \kw{unsigned int} cols)
+\kl\{
+\kl   \kw{unsigned int} i, j;
+\kl   \kw{for} (i = 0; i < rows; i++)
+\kl      \kw{for} (j = 0; j < rows; j++)
+\kl         matrixR[i][j] = matrixA[i][j]+matrixB[i][j];
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{The {\tt main} function}
+\begin{semiverbatim}
+\tiny
+\kr\kl\kw{int} main()
+\kl\{
+\kl   \kw{unsigned int} rows, cols;
+\kl   \kw{double} ** matrixA, ** matrixB, **matrixC;
+\kl   printf(\kt{"Enter rows cols: "});
+\kl   scanf(\kt{"%u %u"}, &rows, &cols);
+\kl
+\kl   matrixA = allocMatrix(rows, cols);
+\kl   matrixB = allocMatrix(rows, cols);
+\kl   matrixC = allocMatrix(rows, cols);
+\kl
+\kl   \kw{if} (!matrixA || !matrixB || !matrixC)
+\kl   \{   \kc{/* a little lazy, but it does the job */}
+\kl      fprintf(stderr, \kt{"Unable to allocate matrices!\\n"});
+\kl      \kw{return} -1;
+\kl   \}
+\kl
+\kl   randomMatrix(matrixA, rows, cols); randomMatrix(matrixB, rows, cols);
+\kl   addMatrices(matrixA, matrixB, matrixC, rows, cols);
+\kl
+\kl   printf(\kt{"\\n\\nmatrix A = \\n"});
+\kl   printMatrix(matrixA, rows, cols);
+\kl   printf(\kt{"\\n\\nmatrixB = \\n"});
+\kl   printMatrix(matrixB, rows, cols);
+\kl   printf(\kt{"\\n\\nmatrixA + matrixB = \\n"});
+\kl   printMatrix(matrixC, rows, cols);
+\kl
+\kl   freeMatrix(matrixC); freeMatrix(matrixB); freeMatrix(matrixA);
+\kl   \kw{return} 0;
+\kl\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Results}
+\vspace{-0.2in}
+\begin{semiverbatim}
+\scriptsize
+Enter rows cols: 4 4
+
+
+matrix A =
+ 0.00125  0.56359  0.19330  0.80874
+ 0.58501  0.47987  0.35029  0.89596
+ 0.82284  0.74660  0.17411  0.85894
+ 0.71050  0.51353  0.30399  0.01498
+
+
+matrixB =
+ 0.09140  0.36445  0.14731  0.16590
+ 0.98853  0.44569  0.11908  0.00467
+ 0.00891  0.37788  0.53166  0.57118
+ 0.60176  0.60717  0.16623  0.66305
+
+
+matrixA + matrixB =
+ 0.09265  0.92804  0.34062  0.97464
+ 1.57353  0.92557  0.46937  0.90063
+ 0.83175  1.12449  0.70577  1.43013
+ 1.31227  1.12070  0.47023  0.67803
+\end{semiverbatim}
+\end{frame}
+
+\section{Summary}
+\subsection{Summary}
+\begin{frame}{Summary}
+\begin{list}{$\bullet$}{}
+\item A \texttt{char} is the smallest addressable data type (1 byte). It can be used to represent a text character and a small number ($-128$ to $127$) interchangeably.
+\item In addition to the three default streams (\texttt{stdin, stderr, stdout}), you can open and interact with file streams by opening them with \texttt{fopen}.
+\item Memory can be allocated dynamically using \texttt{malloc}. This is useful for arrays or matrices of an unknown, varying or large sizes.
+\item Considering the structure of the data in memory (and using the examples here) enables you to allocate elaborate data structures more efficiently.
+\item \texttt{free} is used to release previously allocated memory back to the stack; forgetting to 'free' memory causes memory-leaks.
+\end{list}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,149 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{amsmath,multicol}
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \oddsidemargin  -0.5in
+        \evensidemargin -0.5in
+        \textwidth      7.0in
+        \headheight     0.0in
+        \topmargin      -1.0in
+        \textheight=10.5in
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\large C for Science - Practical Exercise \#5
+\end{center}
+
+\begin{enumerate}
+\item Create the program that is appended to the end of this document.
+\begin{enumerate}
+\item Configure your compiler to compile in ``Release''(optimised) mode. How long does this take to multiply the two large matrices?
+\item Identify the appropriate location and insert:\\
+\texttt{\#pragma omp parallel for private(j,k)}\\
+\item Configure your compiler to use OpenMP. How long does it take now?
+\item What significance does \texttt{private(j,k)} have?
+\item Why not use three \texttt{\#pragma omp parallel for} lines, one for each \texttt{for} loop?
+\end{enumerate}
+\begin{flushright}\textit{[P.T.O.]}\end{flushright}
+\newpage
+
+The Newton-Raphson method can be used to compute the root of function which we know the derivative of. Given $F(x)$ we find $x^*$ such that $F(x^*) = 0$. The algorithm starts with an initial guess, $x_0$, for the root and calculated an improved guess from the formula:
+\begin{equation}
+x_{n+1} = x_n - \frac{F(x_n)}{F'(x_n)}, \quad n = 0,1,\ldots
+\end{equation}
+Iteration stops when a \emph{termination criterion} is met, some common ones include:
+\begin{itemize}
+\item A maximum number of iterations has been reached (we don't want to wait forever!).
+\item $F(x_n)$ is ``close'' to zero.
+\item $|x_{n+1}-x_n|$ is ``small''.
+\end{itemize}
+(also note that we really need $F'(x_n) \neq 0$).
+\item Place the following at the top of your program:
+\begin{center}
+\tt typedef double (* fx)(double x);
+\end{center}
+(this is a function pointer to a function which takes in one {\tt double} and returns one {\tt double}).
+\item Write a C function to carry out Newton iteration following the prototype:
+\begin{center}
+\tt int Newton(double * x, fx f, fx df, int max\_its, double tol);
+\end{center}
+where,
+\begin{itemize}
+\item {\tt f} is the $F(x)$ function we are trying to solve.
+\item {\tt df} corresponds to the derivative of the target function, i.e. $F'(x)$.
+\item {\tt max\_its} is the maximum number of iterations that are allowed.
+\item {\tt tol} is the algorithm \emph{tolerance}, if either $|F(x_n)| < \mathrm{\tt tol}$ or $|x_{n+1}-x_n| < \mathrm{\tt tol}$, iteration should stop.
+\item {\tt x} is a pointer to an initial guess, when the Newton iteration has finished, this should be set to $x_{n+1}$.
+\item {\tt Newton} should {\tt return} the number of iterations carried out. \end{itemize}
+\item Write a {\tt main} function to
+\begin{enumerate}
+\item prompt the user for an initial guess, maximum number of iterations and a tolerance.
+\item Call the {\tt Newton} function to compute the answer.
+\item Print out: $x_{n+1}$ and $F(x_{n+1})$.
+\end{enumerate}
+\item Test the program with the case $F(x) = x^2-2$ at first, with an initial guess of $x_0=1$:
+\begin{enumerate}
+\item What is the lowest tolerance setting you can use before the method fails to converge (using fewer than 10 iterations)?
+\end{enumerate}
+\item Test your solver on the Bessel function (present in GSL and other libraries).\\
+Take $F(x) = J_0(x)$, $F'(x) = -J_1(x)$ and try an $x_0 = 2$.
+\newpage
+\begin{small}
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void multiplyMatrix(double ** matrixA, double ** matrixB, double ** matrixC,
+      int rowsA, int colsA, int colsB)
+{
+   int i,j,k;
+
+   for (i = 0; i < rowsA; i++)
+      for (j = 0; j < colsB; j++)
+      {
+         matrixC[i][j] = 0;
+         for (k = 0; k < colsA; k++)
+            matrixC[i][j] += matrixA[i][k] * matrixB[k][j];
+      }
+}
+
+void randomMatrix(double ** matrix, int rows, int cols)
+{
+   int i, j;
+   for (i = 0; i < rows; i++)
+      for (j = 0; j < cols; j++)
+         matrix[i][j] = (double)rand()/RAND_MAX;
+}
+
+double ** allocMatrix(int rows, int cols)
+{
+   double ** matrix;
+   int i;
+   matrix = (double **) malloc (rows*sizeof(double *));
+   if (!matrix) return NULL;
+   matrix[0] = (double *) malloc (rows*cols*sizeof(double));
+   if (!matrix[0])
+   {
+      free(matrix);
+      return NULL;
+   }
+   for (i = 1; i < rows; i++)
+   {
+      matrix[i] = matrix[i-1] + cols;
+   }
+   return matrix;
+}
+
+void freeMatrix(double ** matrix)
+{
+   free(matrix[0]);
+   free(matrix);
+}
+
+int main(void)
+{
+   double ** matrixA, ** matrixB, ** matrixC, ticks;
+   int size = 1600;
+
+   matrixA = allocMatrix(size,size); randomMatrix(matrixA, size, size);
+   matrixB = allocMatrix(size,size); randomMatrix(matrixB, size, size);
+   matrixC = allocMatrix(size,size);
+
+   printf("Two random matrices generated, now multiplying...\n\n");
+   ticks = clock();
+   multiplyMatrix(matrixA, matrixB, matrixC, size, size, size);
+   printf("Multiplication of two square matrices of size %d took %g seconds\n",
+   size,(clock() - ticks)/CLOCKS_PER_SEC);
+
+   freeMatrix(matrixA);
+   freeMatrix(matrixB);
+   freeMatrix(matrixC);
+
+   return 0;
+}
+\end{verbatim}
+\end{small}
+\end{enumerate}
+
+\end{document}

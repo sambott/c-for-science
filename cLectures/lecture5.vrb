@@ -1,0 +1,24 @@
+\frametitle{Bringing it all together: An Example}
+\begin{small}
+\begin{block}{Single-Threaded Loop}
+\begin{semiverbatim}
+\krr{5}\kl\kw{int} **Matrix, i, col, sum;
+\kl\kw{for} (i=0; i<rows; i++)
+\kl\{
+\kl     col = WhichColumn(i);
+\kl     sum += Matrix[i][col];
+\kl\}
+\end{semiverbatim}
+\end{block}
+\begin{block}{Multi-Threaded Loop}
+\begin{semiverbatim}
+\krr{5}\kl\kw{int} **Matrix, i, row, sum;
+\kl\kw{#pragma} omp parallel for private(col) reduction(+: sum)
+\kl\kw{for} (i=0; i<rows; i++)
+\kl\{
+\kl     col = WhichColumn(i);
+\kl     sum += Matrix[i][col];
+\kl\}
+\end{semiverbatim}
+\end{block}
+\end{small}

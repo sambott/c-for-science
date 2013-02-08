@@ -1,0 +1,123 @@
+\beamer@endinputifotherversion {3.19pt}
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\sectionentry {1}{Characters and Strings}{2}{Characters and Strings}{0}}
+\headcommand {\beamer@sectionpages {1}{1}}
+\headcommand {\beamer@subsectionpages {1}{1}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{2}{Last Week...}}\headcommand {\beamer@subsectionpages {2}{1}}
+\headcommand {\slideentry {1}{1}{1}{2/2}{Last Week...}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{3}{Characters}}\headcommand {\beamer@subsectionpages {2}{2}}
+\headcommand {\slideentry {1}{2}{1}{3/3}{Characters}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\slideentry {1}{2}{2}{4/4}{Characters}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {1}{2}{3}{5/5}{Characters}{0}}
+\headcommand {\beamer@framepages {5}{5}}
+\headcommand {\slideentry {1}{2}{4}{6/6}{Characters}{0}}
+\headcommand {\beamer@framepages {6}{6}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{7}{Strings}}\headcommand {\beamer@subsectionpages {3}{6}}
+\headcommand {\slideentry {1}{3}{1}{7/7}{Strings}{0}}
+\headcommand {\beamer@framepages {7}{7}}
+\headcommand {\slideentry {1}{3}{2}{8/8}{Strings}{0}}
+\headcommand {\beamer@framepages {8}{8}}
+\headcommand {\slideentry {1}{3}{3}{9/9}{Strings}{0}}
+\headcommand {\beamer@framepages {9}{9}}
+\headcommand {\slideentry {1}{3}{4}{10/10}{Strings}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\sectionentry {2}{Streams}{11}{Streams}{0}}
+\headcommand {\beamer@sectionpages {2}{10}}
+\headcommand {\beamer@subsectionpages {7}{10}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{11}{Standard Streams}}\headcommand {\beamer@subsectionpages {11}{10}}
+\headcommand {\slideentry {2}{1}{1}{11/11}{Standard Streams}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {2}{1}{2}{12/12}{Standard Streams}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\slideentry {2}{1}{3}{13/13}{Standard Streams}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{14}{Opening Files}}\headcommand {\beamer@subsectionpages {11}{13}}
+\headcommand {\slideentry {2}{2}{1}{14/14}{Opening Files}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {2}{2}{2}{15/15}{Opening Files}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\slideentry {2}{2}{3}{16/16}{Opening Files}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {2}{2}{4}{17/17}{Opening Files}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {2}{2}{5}{18/18}{Opening Files}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{19}{File Types}}\headcommand {\beamer@subsectionpages {14}{18}}
+\headcommand {\slideentry {2}{3}{1}{19/19}{File Types}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\slideentry {2}{3}{2}{20/20}{File Types}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@subsectionentry {0}{2}{4}{21}{Binary Files}}\headcommand {\beamer@subsectionpages {19}{20}}
+\headcommand {\slideentry {2}{4}{1}{21/21}{Binary Files}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\slideentry {2}{4}{2}{22/22}{Binary Files}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\beamer@subsectionentry {0}{2}{5}{23}{Temporary Files}}\headcommand {\beamer@subsectionpages {21}{22}}
+\headcommand {\slideentry {2}{5}{1}{23/23}{Temporary Files}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\sectionentry {3}{Allocation Memory}{24}{Allocation Memory}{0}}
+\headcommand {\beamer@sectionpages {11}{23}}
+\headcommand {\beamer@subsectionpages {23}{23}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{24}{Borrowing From the Heap}}\headcommand {\beamer@subsectionpages {24}{23}}
+\headcommand {\slideentry {3}{1}{1}{24/24}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\slideentry {3}{1}{2}{25/25}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {25}{25}}
+\headcommand {\slideentry {3}{1}{3}{26/26}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {26}{26}}
+\headcommand {\slideentry {3}{1}{4}{27/27}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {27}{27}}
+\headcommand {\slideentry {3}{1}{5}{28/28}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {28}{28}}
+\headcommand {\slideentry {3}{1}{6}{29/29}{Borrowing From the Heap}{0}}
+\headcommand {\beamer@framepages {29}{29}}
+\headcommand {\sectionentry {4}{Matrices}{30}{Matrices}{0}}
+\headcommand {\beamer@sectionpages {24}{29}}
+\headcommand {\beamer@subsectionpages {24}{29}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{30}{Pointers III}}\headcommand {\beamer@subsectionpages {30}{29}}
+\headcommand {\slideentry {4}{1}{1}{30/30}{Pointers III}{0}}
+\headcommand {\beamer@framepages {30}{30}}
+\headcommand {\slideentry {4}{1}{2}{31/31}{Pointers III}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{32}{Fixed Sized Matrices}}\headcommand {\beamer@subsectionpages {30}{31}}
+\headcommand {\slideentry {4}{2}{1}{32/32}{Fixed Sized Matrices}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\slideentry {4}{2}{2}{33/33}{Fixed Sized Matrices}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\slideentry {4}{2}{3}{34/34}{Fixed Sized Matrices}{0}}
+\headcommand {\beamer@framepages {34}{34}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{35}{Dynamically Allocating Matrices}}\headcommand {\beamer@subsectionpages {32}{34}}
+\headcommand {\slideentry {4}{3}{1}{35/35}{Dynamically Allocating Matrices}{0}}
+\headcommand {\beamer@framepages {35}{35}}
+\headcommand {\slideentry {4}{3}{2}{36/36}{Dynamically Allocating Matrices}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\slideentry {4}{3}{3}{37/37}{Dynamically Allocating Matrices}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {4}{3}{4}{38/38}{Dynamically Allocating Matrices}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{39}{Working with Matrices}}\headcommand {\beamer@subsectionpages {35}{38}}
+\headcommand {\slideentry {4}{4}{1}{39/39}{Working with Matrices}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {4}{4}{2}{40/40}{Working with Matrices}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\slideentry {4}{4}{3}{41/41}{Working with Matrices}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {4}{4}{4}{42/42}{Working with Matrices}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\slideentry {4}{4}{5}{43/43}{Working with Matrices}{0}}
+\headcommand {\beamer@framepages {43}{43}}
+\headcommand {\sectionentry {5}{Summary}{44}{Summary}{0}}
+\headcommand {\beamer@sectionpages {30}{43}}
+\headcommand {\beamer@subsectionpages {39}{43}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{44}{Summary}}\headcommand {\beamer@subsectionpages {44}{43}}
+\headcommand {\slideentry {5}{1}{1}{44/44}{Summary}{0}}
+\headcommand {\beamer@framepages {44}{44}}
+\headcommand {\beamer@partpages {1}{44}}
+\headcommand {\beamer@subsectionpages {44}{44}}
+\headcommand {\beamer@sectionpages {44}{44}}
+\headcommand {\beamer@documentpages {44}}
+\headcommand {\def \inserttotalframenumber {44}}

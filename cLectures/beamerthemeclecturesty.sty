@@ -1,0 +1,125 @@
+\mode<presentation>
+{
+  \usetheme{Dresden}
+  \usecolortheme{beaver}
+  \setbeamercovered{transparent}
+  \usefonttheme[onlymath]{serif}
+  \useoutertheme{smoothbars}
+  \useinnertheme{rounded}
+}
+
+\usepackage[english]{babel}
+\usepackage{times}
+
+
+\title{C for Science}
+
+\author[Sam Bott]{Sam Bott\\
+\url{http://www2.imperial.ac.uk/~shb104/c}\\
+{\tt s.bott@imperial.ac.uk}}
+
+\date{$16^\text{th}$ January 2013}
+
+\subject{Programming - C for Science}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+% create keyword formatting for code but still allow alerting
+%\kw - KeyWord
+%\kt - Text
+%\kc - a comment
+%\kl - start numbered line
+%\kr - reset line numbering
+%\krr{n} - sets line numbering
+\xdefinecolor{keyword}{rgb}{0,0,1}
+\xdefinecolor{ctext}{rgb}{0.64,0.08,0.08}
+\xdefinecolor{cline}{rgb}{0.17,0.57,0.69}
+\xdefinecolor{comment}{rgb}{0,0.5,0.0}
+\newif\ifschigh\schighfalse
+\newcommand{\kw}[1]{\ifschigh\textcolor{red}{#1}\else\textcolor{keyword}{#1}\fi}
+\newcommand{\kt}[1]{\ifschigh\textcolor{red}{#1}\else\textcolor{ctext}{#1}\fi}
+\newcommand{\kc}[1]{\ifschigh\textcolor{red}{#1}\else\textcolor{comment}{#1}\fi}
+\addtobeamertemplate{alerted text begin}{\global\schightrue%
+}{}
+\defbeamertemplate*{alerted text end}{default}{\global\schighfalse%
+}
+
+\newcounter{sckll}
+\newcommand{\kr}{\setcounter{sckll}{1}}
+\newcommand{\krr}[1]{\setcounter{sckll}{#1}}
+\newcommand{\klvalue}{\ifnum\value{sckll}<10{\hphantom{0}}\fi\arabic{sckll}\addtocounter{sckll}{1}}
+\newcommand{\kl}{\ifschigh\textcolor{red}{\klvalue}\else\textcolor{cline}{\klvalue}\fi\hspace{2ex}}
+\newif\ifhandout
+\handouttrue
+\mode<beamer>{\handoutfalse}
+
+\newcounter{scpl}
+\newcommand{\kp}{\arabic{scpl}\addtocounter{scpl}{2}}
+\newcommand{\kpr}{\setcounter{scpl}{3}}
+
+\let\oldurl=\url
+\renewcommand{\url}[1]{\textcolor{blue}{\oldurl{#1}}}
+
+\usepackage{tikz}
+\usepgfmodule{plot}
+\usetikzlibrary{decorations}
+\usetikzlibrary{arrows}
+
+\mode<handout> 
+{ 
+  \usepackage{pgf} 
+  \usepackage{pgfpages} 
+ 
+  \pgfpagesdeclarelayout{4 on 1 boxed} 
+  { 
+    \edef\pgfpageoptionheight{\the\paperheight}  
+    \edef\pgfpageoptionwidth{\the\paperwidth} 
+    \edef\pgfpageoptionborder{0pt} 
+  } 
+  { 
+    \pgfpagesphysicalpageoptions 
+    {% 
+      logical pages=4,% 
+      physical height=\pgfpageoptionheight,% 
+      physical width=\pgfpageoptionwidth% 
+    } 
+    \pgfpageslogicalpageoptions{1} 
+    {% 
+      border code=\pgfsetlinewidth{2pt}\pgfstroke,% 
+      border shrink=\pgfpageoptionborder,% 
+      resized width=.5\pgfphysicalwidth,% 
+      resized height=.5\pgfphysicalheight,% 
+      center=\pgfpoint{.25\pgfphysicalwidth}{.75\pgfphysicalheight}% 
+    }% 
+    \pgfpageslogicalpageoptions{2} 
+    {% 
+      border code=\pgfsetlinewidth{2pt}\pgfstroke,% 
+      border shrink=\pgfpageoptionborder,% 
+      resized width=.5\pgfphysicalwidth,% 
+      resized height=.5\pgfphysicalheight,% 
+      center=\pgfpoint{.75\pgfphysicalwidth}{.75\pgfphysicalheight}% 
+    }% 
+    \pgfpageslogicalpageoptions{3} 
+    {% 
+      border code=\pgfsetlinewidth{2pt}\pgfstroke,% 
+      border shrink=\pgfpageoptionborder,% 
+      resized width=.5\pgfphysicalwidth,% 
+      resized height=.5\pgfphysicalheight,% 
+      center=\pgfpoint{.25\pgfphysicalwidth}{.25\pgfphysicalheight}% 
+    }% 
+    \pgfpageslogicalpageoptions{4} 
+    {% 
+      border code=\pgfsetlinewidth{2pt}\pgfstroke,% 
+      border shrink=\pgfpageoptionborder,% 
+      resized width=.5\pgfphysicalwidth,% 
+      resized height=.5\pgfphysicalheight,% 
+      center=\pgfpoint{.75\pgfphysicalwidth}{.25\pgfphysicalheight}% 
+    }% 
+  } 
+
+  \pgfpagesuselayout{4 on 1 boxed}[a4paper, border shrink=5mm, landscape] 
+  \nofiles 
+}

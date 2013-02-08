@@ -1,0 +1,19 @@
+\frametitle{Pointers}
+A \emph{pointer} is a variable that stores a memory location, they are declared as follows:
+\begin{center}
+\tt \kw{double} * ptrA;
+\end{center}
+
+\begin{block}<+->{{\tt \&} - Pointer reference operator}
+Returns the memory address (pointer to) of a variable.
+\begin{semiverbatim}
+   ptrA = \&A;   \kc{// ptrA points to A}
+\end{semiverbatim}
+\end{block}
+
+\begin{block}<+->{{\tt *} - Pointer de-reference operator}
+Converts a memory address to a variable:
+\begin{semiverbatim}
+   * ptrA  = 1.234;      \kc{// A is now 1.234}
+\end{semiverbatim}
+\end{block}
