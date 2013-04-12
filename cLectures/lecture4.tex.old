@@ -17,7 +17,7 @@
 \subsection{Last Week...}
 \begin{frame}{Last Week...}
 \begin{itemize}
-\item A \texttt{char} is the smallest addressable data type (1 byte). It is used as either an \texttt{ascii} character or a very small integer.
+\item A \kw{char} is the smallest addressable data type (1 byte). It is used as either an \texttt{ascii} character or a very small integer.
 \item \texttt{stdin, stderr and stdout} are the standard console streams. File streams are opened with \texttt{fopen}.
 \item Memory can be allocated dynamically using \texttt{malloc}. This is useful for large (or unknown size) arrays and matrices.
 \item \texttt{free} is used to release previously allocated memory back to the stack; forgetting to 'free' memory causes memory-leaks.
@@ -1028,9 +1028,9 @@ We access the $i^\mathrm{th}$ bit of a variable {\tt x} as follows:
 \begin{frame}{Summary}
 \begin{list}{$\bullet$}{}
 \item More complex array structures can be created with \texttt{malloc} than matrices.
-\item We can create \texttt{struct}s which are our own data types holding multiple values.
+\item We can create \kw{struct}s which are our own data types holding multiple values.
 \item Global variables can be accessed anywhere in your program.
-\item The lifetime of a variable can be extended by making it \texttt{static}.
+\item The lifetime of a variable can be extended by making it \kw{static}.
 \item A 'Release' build will optimise your program at compile-time.
 \item Using the bits that make up individual data types can be an efficient alternative the data types themselves.
 \end{list}

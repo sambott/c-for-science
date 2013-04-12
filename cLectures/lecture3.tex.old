@@ -944,7 +944,7 @@ We drive all these functions using a {\tt main} function.
 \kl\{
 \kl   \kw{unsigned int} i, j;
 \kl   \kw{for} (i = 0; i < rows; i++)
-\kl      \kw{for} (j = 0; j < rows; j++)
+\kl      \kw{for} (j = 0; j < cols; j++)
 \kl         matrixR[i][j] = matrixA[i][j]+matrixB[i][j];
 \kl\}
 \end{semiverbatim}
@@ -1021,7 +1021,7 @@ matrixA + matrixB =
 \subsection{Summary}
 \begin{frame}{Summary}
 \begin{list}{$\bullet$}{}
-\item A \texttt{char} is the smallest addressable data type (1 byte). It can be used to represent a text character and a small number ($-128$ to $127$) interchangeably.
+\item A \kw{char} is the smallest addressable data type (1 byte). It can be used to represent a text character and a small number ($-128$ to $127$) interchangeably.
 \item In addition to the three default streams (\texttt{stdin, stderr, stdout}), you can open and interact with file streams by opening them with \texttt{fopen}.
 \item Memory can be allocated dynamically using \texttt{malloc}. This is useful for arrays or matrices of an unknown, varying or large sizes.
 \item Considering the structure of the data in memory (and using the examples here) enables you to allocate elaborate data structures more efficiently.

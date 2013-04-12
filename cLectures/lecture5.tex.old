@@ -19,9 +19,9 @@
 \begin{frame}{Last Week...}
 \begin{itemize}
 \item Arrays in C are not limited to two dimensions.
-\item We can create our own data types using \texttt{struct}s.
+\item We can create our own data types using \kw{struct}s.
 \item Global variables can be accessed anywhere in your program.
-\item The lifetime of a variable can be extended by making it \texttt{static}.
+\item The lifetime of a variable can be extended by making it \kw{static}.
 \item A 'Release' build will optimise your program during compile-time.
 \item Using the bits that make up individual data types can be an efficient alternative the data types themselves.
 \end{itemize}

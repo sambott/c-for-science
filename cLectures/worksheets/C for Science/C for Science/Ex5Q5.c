@@ -18,13 +18,12 @@ double dF(double x)
 int Newton(double * x, fx f, fx df, int max_its, double tol)
 {
 	int i;
-	double dfx, xn;
+	double xn;
 	for (i = 0; i < max_its; i++)
 	{
-		dfx = df(*x);
-		if (fabs(dfx) < tol) break;
+		if (fabs(f(*x)) < tol) break;
 		xn = *x;
-		*x -= f(*x) / df(*x);
+		*x -= f(xn) / df(xn);
 		if (fabs(*x - xn) < tol) break;
 	}
 	return i;

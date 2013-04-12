@@ -1,4 +1,4 @@
-\documentclass[smaller,handout,table]{beamer}
+\documentclass[smaller,table]{beamer}
 
 \usetheme{clecturesty}
 

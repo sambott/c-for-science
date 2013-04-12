@@ -4,16 +4,25 @@
 
 typedef double (* fx)(double x);
 
+double F(double x)
+{
+	return gsl_sf_bessel_J0(x);
+}
+
+double dF(double x)
+{
+	return -1 * gsl_sf_bessel_J1(x);
+}
+
 int Newton(double * x, fx f, fx df, int max_its, double tol)
 {
 	int i;
-	double dfx, xn;
+	double xn;
 	for (i = 0; i < max_its; i++)
 	{
-		dfx = df(*x);
-		if (fabs(dfx) < tol) break;
+		if (fabs(f(*x)) < tol) break;
 		xn = *x;
-		*x -= f(*x) / df(*x);
+		*x -= f(xn) / df(xn);
 		if (fabs(*x - xn) < tol) break;
 	}
 	return i;
@@ -33,7 +42,7 @@ int main(void)
 	printf("\nEnter algorithm tolerance: ");
 	scanf("%lf", &tol);
 	
-	printf("\nUsing %d iterations, the root of F(x) = 0 has been calculated as:\n\n", Newton(&init, gsl_sf_bessel_J0, gsl_sf_bessel_J1, maxit, tol));
-	printf("x = %.12f\n\nThis has a residue of %.10g\n", init, gsl_sf_bessel_J0(init));
+	printf("\nUsing %d iterations, the root of F(x) = 0 has been calculated as:\n\n", Newton(&init, F, dF, maxit, tol));
+	printf("x = %.12f\n\nThis has a residue of %.10g\n", init, F(init));
 	return 0;
 }
