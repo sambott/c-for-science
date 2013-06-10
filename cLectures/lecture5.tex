@@ -419,22 +419,16 @@ Two threads modifying the same variable at the same time can cause problems. To 
 
 \subsection{C\#}
 \begin{frame}
-\frametitle{Moving on to C\# (or Java)}
-Java and C\# belong to a different class of language.
-\begin{columns}
-\begin{column}{0.66\textwidth}
+\frametitle{Moving on to C\#}
+C\# belongs to a different class of language.
 \begin{itemize}
-\item Java and C\#, both target \emph{virtual machines}. This results in slightly slower code, but faster development.
-\item They are more useful for creating applications with GUIs than for scientific programs.
-\item Pointers are hidden from the user in C\# and completely absent from Java.
-\item Most memory allocation and de-allocation is done automatically, via \emph{garbage collection}.
-\item Java exists for most operating systems and many phones and embedded systems. C\# can be run on .NET for windows, or Mono for Linux, Mac, Android and iOS.
+\item C\# targets the .NET framework. This can be thought of as an \textbf{extensive} library of well-maintained and (mostly) stable general-purpose functions.
+\item .NET runs in software, rather than directly on hardware. This results in slower code, but a consistent and safe execution environment.
+\item C\# is \textit{my} language of choice. The language, together with .NET, favours fast and intuitive development of powerful programs.
+\item Pointers are hidden from the user in C\#. Most memory allocation and de-allocation is done automatically, via \emph{garbage collection}.
+\item To combine the execution speed of C and the development power of C\# I have previously written fast algorithms into C libraries and written a program around it in C\#.
+\item C\# is less portable than C; C\# can only be run on .NET for windows, or Mono for Linux, Mac, Android and iOS.
 \end{itemize}
-\end{column}
-\begin{column}{0.7\textwidth}
-\hspace{-0.57in}\rlap{\includegraphics[width=\textwidth]{comparison}}
-\end{column}
-\end{columns}
 \end{frame}
 
 \begin{frame}
