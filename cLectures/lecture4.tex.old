@@ -119,8 +119,8 @@ Which have the following types:\\
 \kl\{
 \kl   \kw{unsigned int} size = 10, r, c;
 \kl   \kw{int} ** pasc;
-\kl   pasc = (\kw{int} **) malloc(size*sizeof(int));
-\kl   pasc[0] = (\kw{int} *) malloc(size*(size+1)*sizeof(int)/2);
+\kl   pasc = (\kw{int} **) malloc(size*\kw{sizeof}(\kw{int} *));
+\kl   pasc[0] = (\kw{int} *) malloc(size*(size+1)*\kw{sizeof}(\kw{int})/2);
 \kl   \kc{/* check the mallocs */}
 \kl   \kw{for} (r=1; r < size; r++) pasc[r] = pasc[r-1]+r;
 \kl   pasc[0][0] = 1;
@@ -984,7 +984,7 @@ We access the $i^\mathrm{th}$ bit of a variable {\tt x} as follows:
 \kl   \kw{char} Mask=1;
 \kl   sqmax\_num = sqrt((float)max\_num);
 \kl
-\kl   for(current\_num = 3; current\_num <= sqmax\_num; current\_num += 2)
+\kl   \kw{for}(current\_num = 3; current\_num <= sqmax\_num; current\_num += 2)
 \kl   \{
 \kl      \kw{int} Pnum = current\_num / 16; \kc{/*Find which char we are on*/}
 \kl      \kw{short} Pbit = (current\_num - Pnum * 16) / 2; \kc{/*Which bit in char*/}
