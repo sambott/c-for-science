@@ -1,4 +1,4 @@
-\documentclass[smaller,handout,table]{beamer}
+\documentclass[smaller,table]{beamer}
 
 \usetheme{clecturesty}
 
@@ -762,8 +762,8 @@ These are the smallest units of computer memory, each bit can be either 0 or 1.
 \frametitle{Efficient Data Packing}
 \begin{block}{Given a 32 million base pair chromosome}
 \begin{tabular}{l l}
-It will require: &$\approx$128 megabytes to store as {\tt int}\\
-&$\approx$32 megabytes to store as {\tt char}\\
+It will require: &$\approx$128 megabytes to store as \kw{int}\\
+&$\approx$32 megabytes to store as \kw{char}\\
 &$\approx$8 megabytes to store as bit data.
 \end{tabular}
 \end{block}
@@ -771,7 +771,7 @@ It will require: &$\approx$128 megabytes to store as {\tt int}\\
 Given a monochrome print image of 2400 dpi rendered over 80 square inches gives $\approx 500,000,000$ dots. This takes up:
 \begin{center}
 \begin{tabular}{l}
-$\approx$1 gigabyte if using {\tt short}\\
+$\approx$1 gigabyte if using \kw{short}\\
 $\approx$64 megabytes if using bits.
 \end{tabular}
 \end{center}
