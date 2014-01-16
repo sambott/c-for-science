@@ -61,3 +61,10 @@ Ankh.NoLoad
 *.mtc1
 *.out
 *.synctex.gz
+*.nav
+*.snm
+sed*
+*.toc
+*.vrb
+*.old
+*.pdf
